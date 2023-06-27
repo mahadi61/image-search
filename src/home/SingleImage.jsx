@@ -1,7 +1,7 @@
 const SingleImage = ({ image }) => {
   return (
     <div className="">
-      <img className="" src={image.largeImageURL} alt="" />
+      <img className="w-full" src={image.largeImageURL} alt="" />
     </div>
   );
 };

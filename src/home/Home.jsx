@@ -1,22 +1,17 @@
 import { useState } from "react";
-import { BeatLoader } from "react-spinners";
 import SingleImage from "./SingleImage";
 
 const Home = () => {
   const [images, setImages] = useState([]);
-  // const [name, setName] = useState("");
-  const [loader, setLoader] = useState(true);
 
   const handleSearch = (event) => {
     event.preventDefault();
     const name = event.target.name.value;
-    // setName(name);
     fetch(
       `https://pixabay.com/api/?key=37751582-2d5c45858694200b38b39ca6c&q=${name}&image_type=photo&pretty=true`
     )
       .then((res) => res.json())
       .then((data) => {
-        setLoader(false);
         setImages(data.hits);
       });
   };
@@ -38,17 +33,18 @@ const Home = () => {
           className="px-4 py-2 border border-sky-800 rounded-lg"
         />
       </form>
-      {loader && (
-        <div className="text-center mt-5">
-          <BeatLoader color="#36d7b7" />
+
+      {images.length > 0 ? (
+        <div className="grid grid-cols-4 gap-4">
+          {images.map((image, i) => (
+            <SingleImage key={i} image={image}></SingleImage>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center capitalize text-2xl text-cyan-400">
+          Please search something.
         </div>
       )}
-      {/* {console.log(images === [])} */}
-      <div className="grid grid-cols-4 gap-4">
-        {images.map((image, i) => (
-          <SingleImage key={i} image={image}></SingleImage>
-        ))}
-      </div>
     </div>
   );
 };
